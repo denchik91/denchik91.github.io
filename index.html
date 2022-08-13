@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Exchange Rates</title>
+    <style>
+        label {
+            display: block;
+            font-size: 30px;
+        }
+        input {
+            width: 300px;
+            height: 50px;
+            font-size: 30px;
+        }
+
+        select {
+            display: block;
+            margin: 10px 0;
+            width: 200px;
+            height: 40px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Текущий курс <span class="symbol"></span>: <span class="rate"></span></h1>
+
+    <select class="currency" required="required">
+        <option value="1">USD</option>
+        <option value="2">EUR</option>
+        <option value="3">GBP</option>
+    </select>
+
+    <input id="currency" type="text">
+    <label for="uah">UAH</label>
+    <input id="uah" type="text">
+ 
+    <script src="js/script.js"></script>
+</body>
+</html>
