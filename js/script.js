@@ -1,10 +1,10 @@
 'use strict';
 
-const currency = document.querySelector('.currency'),
-      inputUah = document.querySelector('#uah'),
-      rate = document.querySelector('.rate'),
-      symbol = document.querySelector('.symbol'),
-      inputCurrency = document.querySelector('#currency');
+let currency = document.querySelector('.currency'),
+    inputUah = document.querySelector('#uah'),
+    rate = document.querySelector('.rate'),
+    symbol = document.querySelector('.symbol'),
+    inputCurrency = document.querySelector('#currency');
 
 const request = new XMLHttpRequest();
 
@@ -16,55 +16,72 @@ request.addEventListener('load', () => {
     const data = JSON.parse(request.response);
     // console.log(data);
 
-    function changeCurrency(item) {
-        symbol.textContent = '';
-        symbol.append(data[item].cc);
-        rate.textContent = '';
-        rate.append(data[item].rate);
-        clearValue();
-    }
-
-    changeCurrency(25);
-
-    function clearValue() {
-        inputCurrency.value = '';
-        inputUah.value = '';
-    }
-       
+    
     function inputEvent(event) {
+        
+        function calcCurrency(item) {                                   //function that calculates the exchange rate
+            data.forEach((obj) => {
+                if(obj.cc === item) {
+                    
+                    if(event === inputCurrency) {
+                        inputUah.value = (event.value * obj.rate).toFixed(2);
+                    } else if(event === inputUah) {
+                        inputCurrency.value = (event.value / obj.rate).toFixed(2);
+                    }
 
-        function calcCurrency(item) {
-            if(event === inputCurrency) {
-                inputUah.value = (+inputCurrency.value * data[item].rate).toFixed(2);
-            } else if(event === inputUah) {
-                inputCurrency.value = (+inputUah.value / data[item].rate).toFixed(2);
-            }
+                    if(inputCurrency.value === '') {
+                        inputUah.value = '';
+                    } else if(inputUah.value === '') {
+                        inputCurrency.value = '';
+                    }
 
-            if(event.value === '') {
-                clearValue();
-            }
+                    
+                    if(event.value.length === 14) {
+                        let exp = /.$/;
+                        event.value = event.value.replace(exp, '');
+                    }
+                }  
+            });
         }
-
-        currency.addEventListener('change', () => {
+        
+        function changeCurrency(item) {             //function to display the current currency rate
+            data.forEach((obj) => {
+                if(obj.cc === item) {
+                    symbol.textContent = '';
+                    symbol.append(obj.cc);
+                    rate.textContent = '';
+                    rate.append(obj.rate);
+                }
+            });           
+        }
+    
+        changeCurrency('USD');
+        
+        currency.addEventListener('change', () => {   //recalculation when changing currencies
             if(currency.value === "1") {
-                changeCurrency(25);                  
+                changeCurrency('USD'); 
+                calcCurrency('USD');              
             } else if(currency.value === "2") {
-                changeCurrency(32);
+                changeCurrency('EUR');
+                calcCurrency('EUR');
             } else if(currency.value === "3") {
-                changeCurrency(24);
+                changeCurrency('GBP');
+                calcCurrency('GBP');
             }
+
+            
         });
 
         
-        event.addEventListener('input', () => {
+        event.addEventListener('input', () => {       //update result on input
             if(request.status === 200) {
-                
+                     
                 if(currency.value === "1") {
-                    calcCurrency(25);
+                    calcCurrency('USD');                  
                 } else if(currency.value === "2") {
-                    calcCurrency(32);
+                    calcCurrency('EUR');
                 } else if(currency.value === "3") {
-                    calcCurrency(24);
+                    calcCurrency('GBP');
                 }
  
             } else {

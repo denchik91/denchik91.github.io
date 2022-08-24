@@ -5,38 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Exchange Rates</title>
-    <style>
-        label {
-            display: block;
-            font-size: 30px;
-        }
-        input {
-            width: 300px;
-            height: 50px;
-            font-size: 30px;
-        }
-
-        select {
-            display: block;
-            margin: 10px 0;
-            width: 200px;
-            height: 40px;
-            font-size: 20px;
-        }
-    </style>
+    <link href="style.css" rel="stylesheet"  type="text/css">
 </head>
 <body>
     <h1>Текущий курс <span class="symbol"></span>: <span class="rate"></span></h1>
 
     <select class="currency" required="required">
         <option value="1">USD</option>
-        <option value="2">EU</option>
+        <option value="2">EUR</option>
         <option value="3">GBP</option>
     </select>
 
-    <input id="currency" type="text">
+    <input id="currency"  type="number" step="0.01" maxlength="12">
     <label for="uah">UAH</label>
-    <input id="uah" type="text">
+    <input id="uah" maxlength="12" type="number" step="0.01">
  
     <script src="js/script.js"></script>
 </body>
